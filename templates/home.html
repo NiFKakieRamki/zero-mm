@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Главная | 0 мм{% endblock title %}
+
+
+{% block content %}
+
+  <section class="grid gap-10 py-12 md:grid-cols-3 md:items-center">
+    <div class="md:col-span-2">
+      <h1 class="text-5xl font-bold leading-tight mb-6">
+        0 миллиметров &ndash; 0 забот</h1>
+      <p class="text-lg text-ink/70 mb-8">
+        Привет! Я <strong>Виктория</strong>, и я здесь для того, чтобы полностью изменить твое представление о депиляции. В своей стильной студии я превратила рутинный уход за телом в комфортный ритуал, где высокие технологии и премиальные материалы сочетаются с искренней заботой о твоей коже. Я глубоко знаю анатомию волос и тонкости работы с телом, поэтому гарантирую математическую точность настроек, абсолютную стерильность и гладкость. Моя главная цель — подарить тебе уверенность в себе и безупречный результат, создав приватную и расслабляющую атмосферу. Ко мне приходят, чтобы забыть о бритве, а возвращаются за эстетическим удовольствием и временем, посвященным только себе.
+      </p>
+      <div class="flex flex-wrap gap-4 mb-10">
+        <a href="#" class="bg-brand hover:bg-brand-dark text-ink px-6 py-3 rounded-full font-semibold transition-colors">
+          Записаться
+        </a>
+        <a href="#" class="border border-ink/20 hover:border-ink/40 px-6 py-3 rounded-full font-semibold transition-colors">
+          Цены
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-8 text-sm">
+        <div>
+          <p class="text-2xl font-bold">6 лет</p>
+          <p class="text-ink/60">в депиляции</p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold">2 400</p>
+          <p class="text-ink/60">процедур</p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold">40 мин</p>
+          <p class="text-ink/60">полная эпиляция ног</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="aspect-square md:aspect-auto md:h-96 rounded-[3rem] bg-brand/20 flex items-center justify-center text-ink/40 text-sm">
+      фото кабинета
+    </div>
+  </section>
+
+  <section class="py-12 border-t border-ink/10">
+    <h2 class="text-2xl font-bold mb-6">Частые зоны</h2>
+    <div class="grid gap-6 sm:grid-cols-3">
+      <div class="bg-ink/5 rounded-2xl p-6">
+        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">Воск</p>
+        <h3 class="font-semibold mb-1">Ноги полностью</h3>
+        <p class="text-sm text-ink/60 mb-4">Бёдра, голени, колени. 40 минут.</p>
+        <p class="font-bold text-lg">2 500 ₽</p>
+      </div>
+      <div class="bg-ink/5 rounded-2xl p-6">
+        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">Шугаринг</p>
+        <h3 class="font-semibold mb-1">Бикини глубокое</h3>
+        <p class="text-sm text-ink/60 mb-4">Аккуратно, с обезболивающим гелем.</p>
+        <p class="font-bold text-lg">2 200 ₽</p>
+      </div>
+      <div class="bg-ink/5 rounded-2xl p-6">
+        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">Комплекс</p>
+        <h3 class="font-semibold mb-1">Ноги + бикини</h3>
+        <p class="text-sm text-ink/60 mb-4">Выгоднее, чем по отдельности.</p>
+        <p class="font-bold text-lg">4 200 ₽</p>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}

@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
-@source "../../templates/**/*.html";
-@source "../../**/templates/**/*.html";
 @source "../../**/*.{html,js,py}";
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@theme {
+  --color-background: #FAF3E8;
+  --color-brand: #F2A28C;
+  --color-brand-dark: #E6876A;
+  --color-ink: #18140F;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
