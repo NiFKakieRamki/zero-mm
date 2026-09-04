@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import ProcedureType
+from .models import Zone
+from .models import Service
 
-# Register your models here.
+admin.site.register(ProcedureType)
+admin.site.register(Zone)
+admin.site.register(Service)
