@@ -26,6 +26,7 @@ class Service(models.Model):
     duration_minutes = models.PositiveSmallIntegerField(verbose_name='Продолжительность процедуры')
     price = models.DecimalField(max_digits=8, decimal_places=0, verbose_name='Цена')
     is_active = models.BooleanField(default=True, verbose_name='Статус')
+    is_showcased = models.BooleanField(default=False, verbose_name='На витрине')
 
     class Meta:
         verbose_name = 'Услуга'
