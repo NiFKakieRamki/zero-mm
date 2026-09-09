@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}Запись | 0 мм{% endblock title %}
+
+
+{% block content %}
+
+  <h1 class="text-3xl font-bold mb-8">Онлайн-запись</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="grid gap-10 lg:grid-cols-3">
+
+      <div class="lg:col-span-2">
+
+        <div class="flex flex-wrap gap-2 mb-6 border-b border-ink/20 pb-4">
+          {% for procedure_type, services in service_groups %}
+            <button type="button"
+                    data-tab="{{ procedure_type.id }}"
+                    class="tab-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors">
+              {{ procedure_type.name }}
+            </button>
+          {% endfor %}
+        </div>
+
+        {% for procedure_type, services in service_groups %}
+          <div data-panel="{{ procedure_type.id }}" class="tab-panel">
+
+            {% for service in services %}
+                <label class="group flex items-center gap-4 border-b border-ink/15 py-3 cursor-pointer">
+
+                    <input type="checkbox" name="services" value="{{ service.id }}"
+                        class="peer sr-only"
+                        data-name="{{ procedure_type.name }} — {{ service.zone.name }}"
+                        data-price="{{ service.price }}"
+                        data-duration="{{ service.duration_minutes }}">
+
+                    <span class="h-10 w-3 shrink-0 bg-ink transition-all duration-150 ease-out
+                            rounded-lg rounded-tr-none
+                            group-hover:w-8
+                            peer-checked:w-10! peer-checked:rounded-3xl! peer-checked:rounded-tr-none!
+                            peer-focus-visible:ring-2 peer-focus-visible:ring-brand-dark"></span>
+
+                    <span class="flex-1 font-medium text-base leading-none transition-all duration-150 ease-out
+                                group-hover:text-lg
+                                peer-checked:text-xl!">{{ service.zone.name }}</span>
+
+                    <span class="flex items-center gap-4 transition-transform duration-150 ease-out
+                                group-hover:-translate-x-2
+                                peer-checked:-translate-x-4!">
+                      <span class="text-sm text-ink/50">{{ service.duration_minutes }} мин</span>
+                      <span class="font-semibold w-20 text-right">{{ service.price }} ₽</span>
+                    </span>
+
+                </label>
+            {% endfor %}
+
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <aside class="lg:col-span-1">
+        <div class="sticky top-6 bg-ink/5 rounded-2xl p-6">
+
+          <h2 class="font-bold text-lg mb-4">Ваш визит</h2>
+
+          <p id="cart-empty" class="text-sm text-ink/50">
+            Выберите услуги слева
+          </p>
+
+          <ul id="cart-items" class="space-y-3"></ul>
+
+          <div id="cart-summary" hidden class="mt-5 border-t border-ink/15 pt-4 space-y-1">
+            <div class="flex justify-between text-sm text-ink/60">
+              <span>Длительность</span>
+              <span><span id="cart-duration">0</span> мин</span>
+            </div>
+            <div class="flex justify-between font-bold text-lg">
+              <span>Итого</span>
+              <span><span id="cart-total">0</span> ₽</span>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+
+    <div class="mt-8">
+      {{ form.starts_at }}
+    </div>
+
+    <button type="submit" class="mt-6 px-6 py-3 bg-ink text-background rounded-lg">
+      Записаться
+    </button>
+  </form>
+
+
+  <script>
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    function showTab(id) {
+      tabPanels.forEach(panel => {
+        panel.hidden = panel.dataset.panel !== id;
+      });
+
+      tabButtons.forEach(button => {
+        const isActive = button.dataset.tab === id;
+        button.classList.toggle('bg-ink', isActive);
+        button.classList.toggle('text-background', isActive);
+        button.classList.toggle('bg-ink/5', !isActive);
+      });
+    }
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => showTab(button.dataset.tab));
+    });
+
+    if (tabButtons.length) {
+      showTab(tabButtons[0].dataset.tab);
+    }
+
+
+    const serviceInputs = document.querySelectorAll('input[name="services"]');
+    const cartItems = document.getElementById('cart-items');
+    const cartEmpty = document.getElementById('cart-empty');
+    const cartSummary = document.getElementById('cart-summary');
+    const cartDuration = document.getElementById('cart-duration');
+    const cartTotal = document.getElementById('cart-total');
+
+    function updateCart() {
+      const chosen = [...serviceInputs].filter(input => input.checked);
+
+      cartItems.innerHTML = '';
+      let duration = 0;
+      let total = 0;
+
+      chosen.forEach(input => {
+        duration += Number(input.dataset.duration);
+        total += Number(input.dataset.price);
+
+        const item = document.createElement('li');
+        item.className = 'flex justify-between gap-3 text-sm';
+
+        const name = document.createElement('span');
+        name.textContent = input.dataset.name;
+
+        const price = document.createElement('span');
+        price.className = 'font-semibold whitespace-nowrap';
+        price.textContent = input.dataset.price + ' ₽';
+
+        item.append(name, price);
+        cartItems.appendChild(item);
+      });
+
+      cartEmpty.hidden = chosen.length > 0;
+      cartSummary.hidden = chosen.length === 0;
+      cartDuration.textContent = duration;
+      cartTotal.textContent = total;
+    }
+
+    serviceInputs.forEach(input => input.addEventListener('change', updateCart));
+    updateCart();
+  </script>
+
+{% endblock content %}

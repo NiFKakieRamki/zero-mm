@@ -1,25 +1,18 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Главная | 0 мм{% endblock title %}
 
 
 {% block content %}
 
-  <section class="grid gap-10 py-12 md:grid-cols-3 md:items-center">
+  <section class="grid gap-10 py-12 md:grid-cols-3 items-center">
     <div class="md:col-span-2">
       <h1 class="text-5xl font-bold leading-tight mb-6">
         0 миллиметров &ndash; 0 забот</h1>
       <p class="text-lg text-ink/70 mb-8">
         Привет! Я <strong>Виктория</strong>, и я здесь для того, чтобы полностью изменить твое представление о депиляции. В своей стильной студии я превратила рутинный уход за телом в комфортный ритуал, где высокие технологии и премиальные материалы сочетаются с искренней заботой о твоей коже. Я глубоко знаю анатомию волос и тонкости работы с телом, поэтому гарантирую математическую точность настроек, абсолютную стерильность и гладкость. Моя главная цель — подарить тебе уверенность в себе и безупречный результат, создав приватную и расслабляющую атмосферу. Ко мне приходят, чтобы забыть о бритве, а возвращаются за эстетическим удовольствием и временем, посвященным только себе.
       </p>
-      <div class="flex flex-wrap gap-4 mb-10">
-        <a href="#" class="bg-brand hover:bg-brand-dark text-ink px-6 py-3 rounded-full font-semibold transition-colors">
-          Записаться
-        </a>
-        <a href="#" class="border border-ink/20 hover:border-ink/40 px-6 py-3 rounded-full font-semibold transition-colors">
-          Цены
-        </a>
-      </div>
+
       <div class="flex flex-wrap gap-8 text-sm">
         <div>
           <p class="text-2xl font-bold">6 лет</p>
@@ -36,34 +29,102 @@
       </div>
     </div>
 
-    <div class="aspect-square md:aspect-auto md:h-96 rounded-[3rem] bg-brand/20 flex items-center justify-center text-ink/40 text-sm">
-      фото кабинета
+
+
+
+    <div class="bg-brand/15 border border-brand/30 text-ink rounded-4xl p-8 flex flex-col justify-between gap-8">
+
+      <div>
+        <h2 class="text-2xl font-bold mb-3">Записаться онлайн</h2>
+        <p class="text-sm text-ink/60">
+          Без звонков и переписки. Займёт минуту.
+        </p>
+      </div>
+
+      <ol class="space-y-4 text-sm text-ink/80">
+        <li class="flex gap-3 items-center">
+          <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">1</span>
+          Выбираете услугу
+        </li>
+        <li class="flex gap-3 items-center">
+          <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">2</span>
+          Выбираете свободное время
+        </li>
+        <li class="flex gap-3 items-center">
+          <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">3</span>
+          Приходите в назначенный час
+        </li>
+      </ol>
+
+      <a href="{% url 'main:booking_create' %}" class="bg-brand hover:bg-brand-dark text-ink text-center px-6 py-3 rounded-full font-semibold transition-colors">
+        Начать запись
+      </a>
+
     </div>
+
+
+
+
+
+    {% comment %} <div class="bg-ink text-background rounded-4xl p-8 flex flex-col justify-between gap-8">
+
+      <div>
+        <h2 class="text-2xl font-bold mb-3">Записаться онлайн</h2>
+        <p class="text-sm text-background/70">
+          Без звонков и переписки. Займёт минуту.
+        </p>
+      </div>
+
+      <ol class="space-y-4 text-sm text-background/80">
+        <li class="flex gap-3 items-center">
+          <span class="shrink-0 w-6 h-6 rounded-full bg-brand text-ink font-bold text-xs flex items-center justify-center">1</span>
+          Выбираете услугу
+        </li>
+        <li class="flex gap-3 items-center">
+          <span class="shrink-0 w-6 h-6 rounded-full bg-brand text-ink font-bold text-xs flex items-center justify-center">2</span>
+          Выбираете свободное время
+        </li>
+        <li class="flex gap-3 items-center">
+          <span class="shrink-0 w-6 h-6 rounded-full bg-brand text-ink font-bold text-xs flex items-center justify-center">3</span>
+          Приходите в назначенный час
+        </li>
+      </ol>
+
+      <a href="#" class="bg-brand hover:bg-brand-dark text-ink text-center px-6 py-3 rounded-full font-semibold transition-colors">
+        Выбрать время
+      </a>
+
+    </div> {% endcomment %}
+
+
+
+    {% comment %} <div class="relative aspect-square md:aspect-auto">
+      <img src="{% static 'images/kabinet.jpg' %}"
+          alt="Кабинет студии"
+          class="absolute inset-0 w-full h-full object-cover rounded-[3rem]">
+    </div> {% endcomment %}
+
+
   </section>
 
   <section class="py-12 border-t border-ink/10">
-    <h2 class="text-2xl font-bold mb-6">Частые зоны</h2>
-    <div class="grid gap-6 sm:grid-cols-3">
-      <div class="bg-ink/5 rounded-2xl p-6">
-        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">Воск</p>
-        <h3 class="font-semibold mb-1">Ноги полностью</h3>
-        <p class="text-sm text-ink/60 mb-4">Бёдра, голени, колени. 40 минут.</p>
-        <p class="font-bold text-lg">2 500 ₽</p>
-      </div>
-      <div class="bg-ink/5 rounded-2xl p-6">
-        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">Шугаринг</p>
-        <h3 class="font-semibold mb-1">Бикини глубокое</h3>
-        <p class="text-sm text-ink/60 mb-4">Аккуратно, с обезболивающим гелем.</p>
-        <p class="font-bold text-lg">2 200 ₽</p>
-      </div>
-      <div class="bg-ink/5 rounded-2xl p-6">
-        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">Комплекс</p>
-        <h3 class="font-semibold mb-1">Ноги + бикини</h3>
-        <p class="text-sm text-ink/60 mb-4">Выгоднее, чем по отдельности.</p>
-        <p class="font-bold text-lg">4 200 ₽</p>
-      </div>
-    </div>
-  </section>
+  <h2 class="text-2xl font-bold mb-6">Рекомендуем</h2>
+  <div class="grid gap-6 sm:grid-cols-3">
 
+    {% for service in showcased %}
+      <div class="bg-ink/5 rounded-2xl p-6">
+        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">
+          {{ service.procedure_type }}
+        </p>
+        <h3 class="font-semibold mb-1">{{ service.zone }}</h3>
+        <p class="text-sm text-ink/60 mb-4">{{ service.duration_minutes }} минут</p>
+        <p class="font-bold text-lg">{{ service.price }} ₽</p>
+      </div>
+    {% empty %}
+      <p class="text-ink/60">Пока ничего не выбрано для витрины.</p>
+    {% endfor %}
+
+  </div>
+</section>
 
 {% endblock content %}
