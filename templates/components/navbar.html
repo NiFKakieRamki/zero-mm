@@ -24,11 +24,25 @@
       <a href="#" class="hover:text-brand transition-colors">Услуги</a>
       <a href="#" class="hover:text-brand transition-colors">О мастере</a>
       <a href="#" class="hover:text-brand transition-colors">Полезные советы</a>
-      <a href="#" class="hover:text-brand transition-colors">Контакты</a>
+      <a href="{% url 'main:booking_create' %}" class="text-brand hover:text-white transition-colors">Записаться</a>
     </div>
 
-    <a href="{% url 'main:booking_create' %}" class="bg-brand hover:bg-brand-dark text-ink px-4 py-2 rounded-full text-sm font-semibold transition-colors">
-      Записаться
-    </a>
+    <div class="flex items-center gap-4">
+
+      {% if user.is_authenticated %}
+        <span class="hidden sm:inline text-sm text-white">Привет, {{ user.username }} !</span>
+        <a href="{% url 'main:logout' %}"
+           class="text-sm font-medium border border-background/30 rounded-full px-3 py-1.5
+                  hover:border-brand hover:text-brand transition-colors">
+          Выйти
+        </a>
+      {% else %}
+        <a href="{% url 'main:login' %}" class="text-sm font-medium hover:text-brand transition-colors">
+          Войти
+        </a>
+      {% endif %}
+
+    </div>
+
   </nav>
 </header>

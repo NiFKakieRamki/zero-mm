@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Вход | 0 мм{% endblock title %}
+
+
+{% block content %}
+
+  <div class="max-w-sm mx-auto py-8">
+
+    <h1 class="text-3xl font-bold mb-8">Вход</h1>
+
+    <form method="POST" class="space-y-5">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.GET.next }}">
+
+      {% if form.non_field_errors %}
+        <div class="bg-brand/30 rounded-xl px-4 py-3 text-sm">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <div>
+        <label for="{{ form.username.id_for_label }}" class="block text-sm font-semibold mb-1">
+          Имя пользователя
+        </label>
+        {{ form.username }}
+      </div>
+
+      <div>
+        <label for="{{ form.password.id_for_label }}" class="block text-sm font-semibold mb-1">
+          Пароль
+        </label>
+        {{ form.password }}
+      </div>
+
+      <button type="submit"
+              class="w-full bg-ink text-background rounded-lg py-3 font-semibold">
+        Войти
+      </button>
+    </form>
+
+  </div>
+
+{% endblock content %}

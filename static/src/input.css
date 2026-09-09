@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@layer components {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="datetime-local"] {
+    @apply w-full rounded-lg border border-ink/30 bg-white px-4 py-2.5
+           focus:border-ink focus:outline-none;
+  }
+}
+
+
 @source "../../**/*.{html,js,py}";
 
 @font-face {
