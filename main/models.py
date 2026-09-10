@@ -1,5 +1,18 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.conf import settings
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    phone = models.CharField(max_length=20, verbose_name='Телефон')
+    notes = models.TextField(verbose_name='Что важно знать мастеру', blank=True)
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
+    def __str__(self):
+        return f'Профиль для {self.user.username}'
 
 class ProcedureType(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Тип процедуры')

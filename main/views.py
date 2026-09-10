@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from collections import defaultdict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import  AuthenticationForm 
+from django.contrib.auth.forms import  AuthenticationForm
 from django.utils.http import url_has_allowed_host_and_scheme
 from .models import Service
-from .forms import BookingForm
+from .forms import BookingForm, RegisterForm
 
 
 def home_view(request):
@@ -15,6 +15,24 @@ def home_view(request):
         .select_related('procedure_type', 'zone')
         )
     return render(request, 'home.html', {'showcased': services})
+
+
+def register_view(request):
+    if request.method =='POST':
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            new_user = form.save()
+            new_user.profile.phone = form.cleaned_data['phone']
+            new_user.profile.save()
+            login(request, new_user)
+
+            return redirect('main:home')
+
+    else:
+        form = RegisterForm()
+
+    return render(request, 'main/register.html', {'form': form})
 
 
 @login_required

@@ -235,6 +235,9 @@
   .mx-auto {
     margin-inline: auto;
   }
+  .mt-1 {
+    margin-top: var(--spacing);
+  }
   .mt-5 {
     margin-top: calc(var(--spacing) * 5);
   }
@@ -283,6 +286,9 @@
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
+  .h-4 {
+    height: calc(var(--spacing) * 4);
+  }
   .h-5 {
     height: calc(var(--spacing) * 5);
   }
@@ -312,6 +318,9 @@
   }
   .w-full {
     width: 100%;
+  }
+  .w-px {
+    width: 1px;
   }
   .max-w-5xl {
     max-width: var(--container-5xl);
@@ -479,6 +488,12 @@
   }
   .bg-background {
     background-color: var(--color-background);
+  }
+  .bg-background\/25 {
+    background-color: color-mix(in srgb, #FAF3E8 25%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-background) 25%, transparent);
+    }
   }
   .bg-brand {
     background-color: var(--color-brand);
@@ -770,9 +785,6 @@
     }
     .hover\:text-brand-dark:hover {
       color: var(--color-brand-dark);
-    }
-    .hover\:text-ink:hover {
-      color: var(--color-ink);
     }
     .hover\:text-white:hover {
       color: var(--color-white);

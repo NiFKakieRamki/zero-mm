@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Регистрация | 0 мм{% endblock title %}
+
+
+{% block content %}
+
+  <div class="max-w-sm mx-auto py-8">
+
+    <h1 class="text-3xl font-bold mb-8">Регистрация</h1>
+
+    <form method="POST" class="space-y-5">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="bg-brand/30 rounded-xl px-4 py-3 text-sm">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-semibold mb-1">
+            {{ field.label }}
+          </label>
+
+          {{ field }}
+
+          {% if field.help_text %}
+            <div class="mt-1 text-xs text-ink/50">{{ field.help_text }}</div>
+          {% endif %}
+
+          {% for error in field.errors %}
+            <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <button type="submit"
+              class="w-full bg-ink text-background rounded-lg py-3 font-semibold">
+        Зарегистрироваться
+      </button>
+    </form>
+
+  </div>
+
+{% endblock content %}

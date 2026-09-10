@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import ProcedureType
 from .models import Zone
-from .models import Service, Booking
+from .models import Service, Booking, Profile
 
 admin.site.site_header = '0 миллиметров'
 admin.site.site_title = '0 миллиметров'
@@ -9,6 +9,11 @@ admin.site.index_title = 'Управление сайтом'
 
 admin.site.register(ProcedureType)
 admin.site.register(Zone)
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user__username', 'phone', 'notes')
+    search_fields = ('user__username', 'user__email', 'phone')
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
