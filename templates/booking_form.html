@@ -34,7 +34,8 @@
                         class="peer sr-only"
                         data-name="{{ procedure_type.name }} — {{ service.zone.name }}"
                         data-price="{{ service.price }}"
-                        data-duration="{{ service.duration_minutes }}">
+                        data-duration="{{ service.duration_minutes }}"
+                        {% if service.id in selected_service_ids %}checked{% endif %}>
 
                     <span class="h-10 w-3 shrink-0 bg-ink transition-all duration-150 ease-out
                             rounded-lg rounded-tr-none
@@ -90,6 +91,9 @@
 
     <div class="mt-8">
       {{ form.starts_at }}
+      {% for error in form.starts_at.errors %}
+        <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
+      {% endfor %}
     </div>
 
     <button type="submit" class="mt-6 px-6 py-3 bg-ink text-background rounded-lg">

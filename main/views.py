@@ -37,8 +37,14 @@ def register_view(request):
 
 @login_required
 def booking_create_view(request):
+    
+    selected_service_ids = []
+
     if request.method == 'POST':
         form = BookingForm(request.POST)
+
+        for value in request.POST.getlist('services'):
+            selected_service_ids.append(int(value))
 
         if form.is_valid():
             new_booking = form.save(commit=False)
@@ -66,7 +72,8 @@ def booking_create_view(request):
 
     context = {
         'form': form,
-        'service_groups': list(grouped.items())
+        'service_groups': list(grouped.items()),
+        'selected_service_ids': selected_service_ids
     }
 
 

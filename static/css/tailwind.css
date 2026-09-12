@@ -280,9 +280,6 @@
   .hidden {
     display: none;
   }
-  .table {
-    display: table;
-  }
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
@@ -331,20 +328,11 @@
   .flex-1 {
     flex: 1;
   }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
   .shrink-0 {
     flex-shrink: 0;
   }
-  .border-collapse {
-    border-collapse: collapse;
-  }
   .cursor-pointer {
     cursor: pointer;
-  }
-  .resize {
-    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -435,9 +423,6 @@
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
   }
-  .border-background {
-    border-color: var(--color-background);
-  }
   .border-background\/10 {
     border-color: color-mix(in srgb, #FAF3E8 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -456,17 +441,11 @@
       border-color: color-mix(in oklab, var(--color-background) 40%, transparent);
     }
   }
-  .border-brand {
-    border-color: var(--color-brand);
-  }
   .border-brand\/30 {
     border-color: color-mix(in srgb, #F2A28C 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-brand) 30%, transparent);
     }
-  }
-  .border-ink {
-    border-color: var(--color-ink);
   }
   .border-ink\/10 {
     border-color: color-mix(in srgb, #18140F 10%, transparent);
@@ -706,13 +685,6 @@
     --tw-slashed-zero: slashed-zero;
     font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
   }
-  .underline {
-    text-decoration-line: underline;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
   .transition-all {
     transition-property: all;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -891,11 +863,6 @@
   syntax: "*";
   inherits: false;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-duration {
   syntax: "*";
   inherits: false;
@@ -997,7 +964,6 @@
       --tw-numeric-figure: initial;
       --tw-numeric-spacing: initial;
       --tw-numeric-fraction: initial;
-      --tw-outline-style: solid;
       --tw-duration: initial;
       --tw-ease: initial;
       --tw-translate-x: 0;
