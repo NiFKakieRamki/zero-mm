@@ -25,6 +25,20 @@ class ServiceAdmin(admin.ModelAdmin):
 @admin.register(WorkSettings)
 class WorkSettingsAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'work_starts', 'work_ends', 'min_hours_before_visit', 'slot_step_minutes')
+    fieldsets = (
+        ('Рабочие дни', {
+            'description': 'Отмеченные дни — рабочие',
+            'fields': (('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'),),
+        }),
+        ('Рабочее время', {
+            'fields': (('work_starts', 'work_ends'),),
+        }),
+
+        ('Запись', {
+            'fields': ('min_hours_before_visit', 'slot_step_minutes'),
+        }),
+    )
+    
 
     def has_add_permission(self, request):
         if WorkSettings.objects.exists():

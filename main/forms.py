@@ -21,7 +21,11 @@ class BookingForm(forms.ModelForm):
 
         starts_at = cleaned.get('starts_at')
         services = cleaned.get('services')
+        working_days = [work_settings.monday, work_settings.tuesday, work_settings.wednesday, work_settings.thursday, work_settings.friday, work_settings.saturday, work_settings.sunday]
         time_booking = timezone.now() + timedelta(hours=work_settings.min_hours_before_visit)
+
+        if starts_at and not working_days[starts_at.weekday()]:
+            self.add_error('starts_at', 'Вы выбрали нерабочий день')
 
         if starts_at and starts_at <= time_booking:
             self.add_error('starts_at', f'Ближайшее время для записи — через {work_settings.min_hours_before_visit} ч.')

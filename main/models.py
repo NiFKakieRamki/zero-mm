@@ -56,6 +56,13 @@ class WorkSettings(models.Model):
     work_ends = models.TimeField(default=time(18,0), verbose_name='Конец рабочего дня')
     min_hours_before_visit = models.PositiveSmallIntegerField(default=3, verbose_name='Минимум часов до визита')
     slot_step_minutes = models.PositiveSmallIntegerField(default=15, verbose_name='Шаг слота записи')
+    monday = models.BooleanField(default=True, verbose_name='Понедельник')
+    tuesday = models.BooleanField(default=True, verbose_name='Вторник')
+    wednesday = models.BooleanField(default=True, verbose_name='Среда')
+    thursday = models.BooleanField(default=True, verbose_name='Четверг')
+    friday = models.BooleanField(default=True, verbose_name='Пятница')
+    saturday = models.BooleanField(default=True, verbose_name='Суббота')
+    sunday = models.BooleanField(default=True, verbose_name='Воскресенье')
 
     class Meta:
         verbose_name = 'Настройки записи'
