@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import ProcedureType
 from .models import Zone
-from .models import Service, Booking, Profile
+from .models import Service, Booking, Profile, WorkSettings
 
 admin.site.site_header = '0 миллиметров'
 admin.site.site_title = '0 миллиметров'
@@ -21,6 +21,16 @@ class ServiceAdmin(admin.ModelAdmin):
     list_filter = ('procedure_type', 'zone', 'is_active', 'is_showcased')
     search_fields = ('procedure_type__name', 'zone__name')
     list_editable = ('is_showcased',)
+
+@admin.register(WorkSettings)
+class WorkSettingsAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'work_starts', 'work_ends', 'min_hours_before_visit', 'slot_step_minutes')
+
+    def has_add_permission(self, request):
+        if WorkSettings.objects.exists():
+            return False
+        return True
+
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):

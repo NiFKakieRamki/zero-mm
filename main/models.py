@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from datetime import time
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
@@ -49,6 +50,24 @@ class Service(models.Model):
     def __str__(self):
         return f'{self.procedure_type.name.upper()} - {self.zone} ( {self.duration_minutes} мин, {self.price} ₽ )'
 
+
+class WorkSettings(models.Model):
+    work_starts = models.TimeField(default=time(10,0), verbose_name='Начало рабочего дня')
+    work_ends = models.TimeField(default=time(18,0), verbose_name='Конец рабочего дня')
+    min_hours_before_visit = models.PositiveSmallIntegerField(default=3, verbose_name='Минимум часов до визита')
+    slot_step_minutes = models.PositiveSmallIntegerField(default=15, verbose_name='Шаг слота записи')
+
+    class Meta:
+        verbose_name = 'Настройки записи'
+        verbose_name_plural = 'Настройки записи'
+
+    def __str__(self):
+        return 'Настройки рабочего дня и записи'
+
+    @classmethod
+    def get_settings(cls):
+        work_settings, _ = cls.objects.get_or_create(id=1)
+        return work_settings
 
 
 class Booking(models.Model):
