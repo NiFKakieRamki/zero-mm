@@ -3,6 +3,7 @@ from collections import defaultdict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import  AuthenticationForm
+from django.contrib import messages
 from django.utils.http import url_has_allowed_host_and_scheme
 from .models import Service
 from .forms import BookingForm, RegisterForm
@@ -52,6 +53,8 @@ def booking_create_view(request):
             new_booking.save()
             form.save_m2m()
             new_booking.update_total()
+
+            messages.success(request, f'Вы успешно записались к мастеру. Дата записи: {new_booking.starts_at:%d.%m.%Y %H:%M}. Стоимость — {new_booking.total_price} ₽')
 
             return redirect('main:home')
 

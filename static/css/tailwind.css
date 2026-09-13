@@ -6,6 +6,9 @@
     --font-sans: 'Inter', system-ui, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+    --color-green-100: oklch(96.2% 0.044 156.743);
+    --color-green-200: oklch(92.5% 0.084 155.995);
+    --color-green-800: oklch(44.8% 0.119 151.328);
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-sm: 24rem;
@@ -384,6 +387,11 @@
     margin-block-start: calc(var(--spacing) * var(--tw-space-y-reverse));
     margin-block-end: calc(var(--spacing) * calc(1 - var(--tw-space-y-reverse)));
   }
+  :where(.space-y-2 > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+  }
   :where(.space-y-3 > :not(:last-child)) {
     --tw-space-y-reverse: 0;
     margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));
@@ -471,6 +479,9 @@
       border-color: color-mix(in oklab, var(--color-brand) 40%, transparent);
     }
   }
+  .border-green-200 {
+    border-color: var(--color-green-200);
+  }
   .border-ink {
     border-color: var(--color-ink);
   }
@@ -510,11 +521,23 @@
       background-color: color-mix(in oklab, var(--color-brand) 15%, transparent);
     }
   }
+  .bg-brand\/20 {
+    background-color: color-mix(in srgb, #F2A28C 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-brand) 20%, transparent);
+    }
+  }
   .bg-brand\/30 {
     background-color: color-mix(in srgb, #F2A28C 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-brand) 30%, transparent);
     }
+  }
+  .bg-green-100 {
+    background-color: var(--color-green-100);
+  }
+  .bg-green-200 {
+    background-color: var(--color-green-200);
   }
   .bg-ink {
     background-color: var(--color-ink);
@@ -707,6 +730,9 @@
   }
   .text-brand-dark {
     color: var(--color-brand-dark);
+  }
+  .text-green-800 {
+    color: var(--color-green-800);
   }
   .text-ink {
     color: var(--color-ink);

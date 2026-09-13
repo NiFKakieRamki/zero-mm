@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from datetime import time
 
 class Profile(models.Model):
@@ -75,6 +76,27 @@ class WorkSettings(models.Model):
     def get_settings(cls):
         work_settings, _ = cls.objects.get_or_create(id=1)
         return work_settings
+
+
+class TimeOff(models.Model):
+    starts_at = models.DateTimeField(verbose_name='Начало нерабочего времени')
+    ends_at = models.DateTimeField(verbose_name='Конец нерабочего времени')
+    comment = models.CharField(max_length=100, blank=True, verbose_name='Комментарии')
+
+    class Meta:
+        verbose_name = 'Нерабочее время'
+        verbose_name_plural = 'Нерабочее время'
+        ordering = ['-starts_at']
+
+    def __str__(self):
+        return f'Нерабочее время с {self.starts_at:%d.%m.%Y %H:%M} по {self.ends_at:%d.%m.%Y %H:%M}'
+
+    def clean(self):
+       
+        if self.starts_at and self.ends_at and self.starts_at >= self.ends_at:
+            raise ValidationError('Окончание должно быть позже начала')
+           
+
 
 
 class Booking(models.Model):

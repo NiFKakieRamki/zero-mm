@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import ProcedureType
 from .models import Zone
-from .models import Service, Booking, Profile, WorkSettings
+from .models import Service, Booking, Profile, WorkSettings, TimeOff
 
 admin.site.site_header = '0 миллиметров'
 admin.site.site_title = '0 миллиметров'
@@ -46,9 +46,13 @@ class WorkSettingsAdmin(admin.ModelAdmin):
         return True
 
 
+@admin.register(TimeOff)
+class TimeOffAdmin(admin.ModelAdmin):
+    list_display = ('starts_at', 'ends_at', 'comment')
+
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('starts_at', 'client', 'total_duration_minutes', 'total_price', 'status')
+    list_display = ('starts_at', 'client', 'total_duration_minutes', 'total_price', 'status', 'created_at')
     date_hierarchy = 'starts_at'
     filter_horizontal = ('services',)
 

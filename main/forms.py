@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Booking, WorkSettings
+from .models import Booking, WorkSettings, TimeOff
 from django.utils import timezone
 from datetime import timedelta
 
@@ -39,6 +39,11 @@ class BookingForm(forms.ModelForm):
                 total_minutes += service.duration_minutes
 
             ends_at = starts_at + timedelta(minutes=total_minutes)
+
+            for time_off in TimeOff.objects.all():
+                if starts_at < time_off.ends_at and time_off.starts_at < ends_at:
+                    self.add_error('starts_at', 'Мастер не работает в это время. Выберите другое')
+                    break
 
             if ends_at.time() > work_settings.work_ends:
                 self.add_error('starts_at', f'Визит заканчивается позже рабочего времени (Работаем с {work_settings.work_starts:%H:%M} до {work_settings.work_ends:%H:%M})')
