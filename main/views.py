@@ -5,8 +5,11 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib import messages
 from django.utils.http import url_has_allowed_host_and_scheme
-from .models import Service
+from .models import Service, Booking
 from .forms import BookingForm, RegisterForm
+from datetime import date
+from django.http import JsonResponse
+from .slots import get_slots
 
 
 def home_view(request):
@@ -105,3 +108,29 @@ def logout_view(request):
     logout(request)
 
     return redirect('main:home')
+
+@login_required
+def booking_slot_view(request):
+    date_str = request.GET.get('date')
+    duration_str = request.GET.get('duration')
+
+    if not date_str or not duration_str or not duration_str.isdigit():
+        return JsonResponse({'slots': []})
+
+    try:
+        day = date.fromisoformat(date_str)
+
+    except ValueError:
+        return JsonResponse({'slots': []})
+
+    slots = get_slots(day, int(duration_str))
+
+    return JsonResponse({'slots': slots})
+
+    
+@login_required
+def my_bookings_view(request):
+    bookings = Booking.objects.filter(client=request.user).prefetch_related('services').order_by('-starts_at')
+
+    return render(request, 'main/my_bookings.html', {'bookings':bookings})
+

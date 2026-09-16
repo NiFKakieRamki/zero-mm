@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from datetime import time
+from datetime import time, timedelta
+from django.utils import timezone
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
@@ -86,16 +87,27 @@ class TimeOff(models.Model):
     class Meta:
         verbose_name = 'Нерабочее время'
         verbose_name_plural = 'Нерабочее время'
-        ordering = ['-starts_at']
+        ordering = ['starts_at']
 
     def __str__(self):
         return f'Нерабочее время с {self.starts_at:%d.%m.%Y %H:%M} по {self.ends_at:%d.%m.%Y %H:%M}'
 
     def clean(self):
        
-        if self.starts_at and self.ends_at and self.starts_at >= self.ends_at:
-            raise ValidationError('Окончание должно быть позже начала')
-           
+        if self.starts_at and self.ends_at:
+            if self.starts_at >= self.ends_at:
+                raise ValidationError('Окончание должно быть позже начала')
+
+            booking_list = []
+            for booking in Booking.objects.filter(status=Booking.Status.PLANNED, starts_at__lt=self.ends_at):
+                booking_ends_at = booking.starts_at + timedelta(minutes=booking.total_duration_minutes)
+                if booking_ends_at > self.starts_at:
+                    booking_list.append(f'{booking.client} - {timezone.localtime(booking.starts_at):%d.%m %H:%M}')
+
+            if booking_list:
+                raise ValidationError(['В выбранном периоде есть запланированные записи:'] + booking_list)
+
+            
 
 
 
@@ -118,7 +130,7 @@ class Booking(models.Model):
     class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
-        ordering = ['-starts_at']
+        ordering = ['starts_at']
 
     def __str__(self):
         return f'{self.client} - {self.starts_at:%d.%m.%Y %H:%M}'

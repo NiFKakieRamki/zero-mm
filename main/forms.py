@@ -12,7 +12,6 @@ class BookingForm(forms.ModelForm):
 
         widgets = {
             'services': forms.CheckboxSelectMultiple,
-            'starts_at': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
     def clean(self):
@@ -41,7 +40,7 @@ class BookingForm(forms.ModelForm):
             ends_at = starts_at + timedelta(minutes=total_minutes)
 
             for time_off in TimeOff.objects.all():
-                if starts_at < time_off.ends_at and time_off.starts_at < ends_at:
+                if starts_at < time_off.ends_at and ends_at > time_off.starts_at:
                     self.add_error('starts_at', 'Мастер не работает в это время. Выберите другое')
                     break
 
@@ -52,7 +51,7 @@ class BookingForm(forms.ModelForm):
             for booking in same_day_booking:
                 booking_ends_at = booking.starts_at + timedelta(minutes=booking.total_duration_minutes)
 
-                if starts_at < booking_ends_at and booking.starts_at < ends_at:
+                if starts_at < booking_ends_at and ends_at > booking.starts_at:
                     self.add_error('starts_at', 'Это время уже занято, выберите другое')
                     break
 

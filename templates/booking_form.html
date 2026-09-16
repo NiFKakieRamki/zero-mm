@@ -60,6 +60,9 @@
           </div>
         {% endfor %}
 
+
+      {% comment %} БЛОК КОРЗИНЫ {% endcomment %}
+
       </div>
 
       <aside class="lg:col-span-1">
@@ -89,8 +92,22 @@
 
     </div>
 
-    <div class="mt-8">
-      {{ form.starts_at }}
+
+    {% comment %} БЛОК СЛОТЫ {% endcomment %}
+
+    <div class="mt-8 max-w-md">
+
+      <label for="booking-date" class="block text-sm font-semibold mb-1">Дата визита</label>
+      <input type="date" id="booking-date">
+
+      <div id="slots-block" class="mt-5" hidden>
+        <p class="text-sm font-semibold mb-2">Свободное время</p>
+        <div id="slots" class="grid grid-cols-4 sm:grid-cols-6 gap-2"></div>
+        <p id="slots-empty" class="text-sm text-ink/50" hidden>На эту дату свободного времени нет</p>
+      </div>
+
+      <input type="hidden" name="starts_at" id="starts-at">
+
       {% for error in form.starts_at.errors %}
         <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
       {% endfor %}
@@ -168,6 +185,74 @@
 
     serviceInputs.forEach(input => input.addEventListener('change', updateCart));
     updateCart();
+
+
+    {% comment %} СКРИПТ ДЛЯ БЛОКА СЛОТОВ {% endcomment %}
+
+    const dateInput = document.getElementById('booking-date');
+    const slotsBlock = document.getElementById('slots-block');
+    const slotsBox = document.getElementById('slots');
+    const slotsEmpty = document.getElementById('slots-empty');
+    const startsAtInput = document.getElementById('starts-at');
+
+    function totalDuration() {
+      let total = 0;
+      serviceInputs.forEach(input => {
+        if (input.checked) {
+          total += Number(input.dataset.duration);
+        }
+      });
+      return total;
+    }
+
+    async function loadSlots() {
+      startsAtInput.value = '';
+
+      const date = dateInput.value;
+      const duration = totalDuration();
+
+      if (!date || duration === 0) {
+        slotsBox.innerHTML = '';
+        slotsBlock.hidden = true;
+        return;
+      }
+
+      slotsBlock.hidden = false;
+
+      const response = await fetch(`/booking/slots/?date=${date}&duration=${duration}`);
+      const data = await response.json();
+      slotsBox.innerHTML = '';
+      slotsEmpty.hidden = data.slots.length > 0;
+
+      data.slots.forEach(slot => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = slot.time;
+        button.disabled = !slot.available;
+
+        button.className = 'px-3 py-2 rounded-lg text-sm border text-center tabular-nums transition-colors ' + (
+          slot.available
+            ? 'border-ink/20 hover:border-ink'
+            : 'border-transparent bg-ink/5 text-ink/30 cursor-not-allowed'
+        );
+
+        button.addEventListener('click', () => {
+          slotsBox.querySelectorAll('button').forEach(other => {
+            other.classList.remove('bg-ink', 'text-background');
+          });
+          button.classList.add('bg-ink', 'text-background');
+          startsAtInput.value = `${date} ${slot.time}`;
+        });
+
+        slotsBox.appendChild(button);
+      });
+    }
+
+    dateInput.addEventListener('change', loadSlots);
+    serviceInputs.forEach(input => input.addEventListener('change', loadSlots));
+
+
+
   </script>
 
 {% endblock content %}
