@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import ProcedureType
 from .models import Zone
 from .models import Service, Booking, Profile, WorkSettings, TimeOff
+from django.utils.html import format_html
 
 admin.site.site_header = '0 миллиметров'
 admin.site.site_title = '0 миллиметров'
@@ -52,7 +53,7 @@ class TimeOffAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('starts_at', 'client', 'total_duration_minutes', 'total_price', 'status', 'created_at')
+    list_display = ('starts_at', 'client', 'total_duration_minutes', 'total_price', 'colored_status', 'created_at')
     list_filter = ('status',)
     date_hierarchy = 'starts_at'
     filter_horizontal = ('services',)
@@ -64,4 +65,14 @@ class BookingAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         Booking.mark_finished()
         return super().changelist_view(request, extra_context)
+
+    @admin.display(description='Статус', ordering='status')
+    def colored_status(self, obj):
+        colors = {
+            Booking.Status.PLANNED: '#15803d',
+            Booking.Status.DONE: '#6b7280',
+            Booking.Status.CANCELLED: '#b91c1c',
+            Booking.Status.NO_SHOW: '#c2410c',
+        }
+        return format_html('<b style="color: {}">{}</b>', colors[obj.status], obj.get_status_display())
 

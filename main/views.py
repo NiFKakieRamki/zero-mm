@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from collections import defaultdict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib import messages
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils import timezone
 from .models import Service, Booking
 from .forms import BookingForm, RegisterForm
 from datetime import date
@@ -136,3 +137,16 @@ def my_bookings_view(request):
 
     return render(request, 'my_bookings.html', {'bookings': bookings})
 
+@login_required
+def booking_cancel_view(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, client=request.user)
+
+    if request.method == 'POST':
+        if booking.status == Booking.Status.PLANNED and booking.starts_at > timezone.now():
+            booking.status = Booking.Status.CANCELLED
+            booking.save()
+            messages.success(request, 'Запись отменена')
+        else:
+            messages.error(request, 'Эту запись уже нельзя отменить')
+
+    return redirect('main:my_bookings')

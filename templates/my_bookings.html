@@ -20,6 +20,7 @@
               </p>
               <span class="text-sm px-3 py-1 rounded-full
                           {% if booking.status == 'planned' %}bg-green-100 text-green-800
+                          {% elif booking.status == 'cancelled' %}bg-red-100 text-red-800
                           {% else %}bg-ink/5 text-ink/60{% endif %}">
                 {{ booking.get_status_display }}
               </span>
@@ -38,6 +39,18 @@
               <p class="text-sm text-ink/60">{{ booking.total_duration_minutes }} мин</p>
               <p class="font-bold">{{ booking.total_price }} ₽</p>
             </div>
+
+            {% if booking.status == 'planned' %}
+            <form method="POST"
+                  action="{% url 'main:booking_cancel' booking.id %}"
+                  onsubmit="return confirm('Отменить запись?')"
+                  class="mt-4">
+              {% csrf_token %}
+              <button type="submit" class="text-sm text-brand-dark hover:underline cursor-pointer">
+                Отменить запись
+              </button>
+            </form>
+          {% endif %}
 
           </div>
 
