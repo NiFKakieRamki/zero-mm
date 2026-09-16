@@ -109,8 +109,6 @@ class TimeOff(models.Model):
 
             
 
-
-
 class Booking(models.Model):
 
     class Status(models.TextChoices):

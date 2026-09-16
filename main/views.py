@@ -6,8 +6,8 @@ from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib import messages
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils import timezone
-from .models import Service, Booking
-from .forms import BookingForm, RegisterForm
+from .models import Service, Booking, Profile
+from .forms import BookingForm, RegisterForm, ProfileForm
 from datetime import date
 from django.http import JsonResponse
 from .slots import get_slots
@@ -38,6 +38,32 @@ def register_view(request):
         form = RegisterForm()
 
     return render(request, 'main/register.html', {'form': form})
+
+@login_required
+def profile_view(request):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            profile.phone = form.cleaned_data['phone']
+            profile.notes = form.cleaned_data['notes']
+            profile.save()
+            messages.success(request, 'Данные обновлены')
+            return redirect('main:profile')
+
+    else:
+        form = ProfileForm(instance=request.user, initial={
+            'phone': profile.phone,
+            'notes': profile.notes
+        })
+
+    return render(request, 'profile.html', {'form': form})
+
+
+
 
 
 @login_required

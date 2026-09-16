@@ -12,11 +12,7 @@
     <div class="flex items-center gap-4">
 
       {% if user.is_authenticated %}
-        <span class="hidden sm:inline text-sm text-white">Привет, {{ user.username }} !</span>
-
-        <a href="{% url 'main:my_bookings' %}" class="text-sm text-brand font-medium hover:text-white transition-colors">
-          Мои записи
-        </a>
+        <a href="{% url 'main:my_bookings' %}" class="text-sm font-medium hover:text-brand transition-colors">Привет, {{ user.first_name|default:user.username }}!</a>
 
         <a href="{% url 'main:logout' %}"
            class="text-sm font-medium border border-background/30 rounded-full px-3 py-1.5

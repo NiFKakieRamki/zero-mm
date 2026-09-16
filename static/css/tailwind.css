@@ -216,20 +216,11 @@
     white-space: nowrap;
     border-width: 0;
   }
-  .absolute {
-    position: absolute;
-  }
-  .relative {
-    position: relative;
-  }
   .static {
     position: static;
   }
   .sticky {
     position: sticky;
-  }
-  .inset-0 {
-    inset: 0px;
   }
   .top-0 {
     top: 0px;
@@ -294,12 +285,6 @@
   .inline-block {
     display: inline-block;
   }
-  .table {
-    display: table;
-  }
-  .aspect-square {
-    aspect-ratio: 1 / 1;
-  }
   .h-4 {
     height: calc(var(--spacing) * 4);
   }
@@ -311,9 +296,6 @@
   }
   .h-10 {
     height: calc(var(--spacing) * 10);
-  }
-  .h-full {
-    height: 100%;
   }
   .min-h-screen {
     min-height: 100vh;
@@ -351,23 +333,14 @@
   .flex-1 {
     flex: 1;
   }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
   .shrink-0 {
     flex-shrink: 0;
-  }
-  .border-collapse {
-    border-collapse: collapse;
   }
   .cursor-not-allowed {
     cursor: not-allowed;
   }
   .cursor-pointer {
     cursor: pointer;
-  }
-  .resize {
-    resize: both;
   }
   .grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -442,9 +415,6 @@
   .rounded-4xl {
     border-radius: var(--radius-4xl);
   }
-  .rounded-\[3rem\] {
-    border-radius: 3rem;
-  }
   .rounded-full {
     border-radius: calc(infinity * 1px);
   }
@@ -469,9 +439,6 @@
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
   }
-  .border-background {
-    border-color: var(--color-background);
-  }
   .border-background\/10 {
     border-color: color-mix(in srgb, #FAF3E8 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -490,9 +457,6 @@
       border-color: color-mix(in oklab, var(--color-background) 40%, transparent);
     }
   }
-  .border-brand {
-    border-color: var(--color-brand);
-  }
   .border-brand\/30 {
     border-color: color-mix(in srgb, #F2A28C 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -501,9 +465,6 @@
   }
   .border-green-200 {
     border-color: var(--color-green-200);
-  }
-  .border-ink {
-    border-color: var(--color-ink);
   }
   .border-ink\/10 {
     border-color: color-mix(in srgb, #18140F 10%, transparent);
@@ -570,9 +531,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-white) 30%, transparent);
     }
-  }
-  .object-cover {
-    object-fit: cover;
   }
   .p-6 {
     padding: calc(var(--spacing) * 6);
@@ -763,9 +721,6 @@
   .text-red-800 {
     color: var(--color-red-800);
   }
-  .text-white {
-    color: var(--color-white);
-  }
   .uppercase {
     text-transform: uppercase;
   }
@@ -777,9 +732,6 @@
     --tw-numeric-spacing: tabular-nums;
     font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
   }
-  .underline {
-    text-decoration-line: underline;
-  }
   .shadow-lg {
     --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -787,12 +739,6 @@
   .shadow-sm {
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  .shadow-ink {
-    --tw-shadow-color: #18140F;
-    @supports (color: color-mix(in lab, red, red)) {
-      --tw-shadow-color: color-mix(in oklab, var(--color-ink) var(--tw-shadow-alpha), transparent);
-    }
   }
   .shadow-ink\/10 {
     --tw-shadow-color: color-mix(in srgb, #18140F 10%, transparent);
@@ -805,10 +751,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-ink) 20%, transparent) var(--tw-shadow-alpha), transparent);
     }
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
   }
   .transition-all {
     transition-property: all;
@@ -880,11 +822,16 @@
     .hover\:bg-brand-dark:hover {
       background-color: var(--color-brand-dark);
     }
+    .hover\:bg-ink\/10:hover {
+      background-color: color-mix(in srgb, #18140F 10%, transparent);
+    }
+    @supports (color: color-mix(in lab, red, red)) {
+      .hover\:bg-ink\/10:hover {
+        background-color: color-mix(in oklab, var(--color-ink) 10%, transparent);
+      }
+    }
     .hover\:text-brand:hover {
       color: var(--color-brand);
-    }
-    .hover\:text-brand-dark:hover {
-      color: var(--color-brand-dark);
     }
     .hover\:text-white:hover {
       color: var(--color-white);
@@ -897,6 +844,9 @@
     .sm\:inline {
       display: inline;
     }
+    .sm\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .sm\:grid-cols-3 {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -907,9 +857,6 @@
   @media (width >= 48rem) {
     .md\:col-span-2 {
       grid-column: span 2 / span 2;
-    }
-    .md\:aspect-auto {
-      aspect-ratio: auto;
     }
     .md\:grid-cols-3 {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -928,7 +875,7 @@
   }
 }
 @layer components {
-  input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="date"] {
+  input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="date"], textarea {
     width: 100%;
     border-radius: var(--radius-lg);
     border-style: var(--tw-border-style);
@@ -1062,11 +1009,6 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-duration {
   syntax: "*";
   inherits: false;
@@ -1117,7 +1059,6 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-duration: initial;
       --tw-ease: initial;
       --tw-translate-x: 0;

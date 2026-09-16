@@ -5,7 +5,19 @@
 {% block content %}
   <div class="max-w-3xl mx-auto">
 
-    <h1 class="text-3xl font-bold mb-8">Мои записи</h1>
+    <h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
+
+    <nav class="flex gap-2 mb-8">
+      <a href="{% url 'main:my_bookings' %}"
+         class="px-4 py-2 rounded-full text-sm font-semibold bg-ink text-background">
+        Мои записи
+      </a>
+      <a href="{% url 'main:profile' %}"
+         class="px-4 py-2 rounded-full text-sm font-semibold bg-ink/5 hover:bg-ink/10 transition-colors">
+        Мои данные
+      </a>
+    </nav>
+    
 
     {% if bookings %}
 

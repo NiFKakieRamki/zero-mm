@@ -53,7 +53,7 @@ class TimeOffAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('starts_at', 'client', 'total_duration_minutes', 'total_price', 'colored_status', 'created_at')
+    list_display = ('starts_at', 'client__username', 'client__first_name', 'client__profile__phone', 'total_duration_minutes', 'total_price', 'colored_status', 'created_at')
     list_filter = ('status',)
     date_hierarchy = 'starts_at'
     filter_horizontal = ('services',)

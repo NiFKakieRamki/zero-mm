@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import Booking, WorkSettings, TimeOff
 from django.utils import timezone
 from datetime import timedelta
@@ -74,6 +75,27 @@ class RegisterForm(UserCreationForm):
         self.fields['first_name'].required = True
         self.fields['email'].required = True
 
+
+class ProfileForm(forms.ModelForm):
+    phone = forms.CharField(max_length=20, label='Телефон')
+    notes = forms.CharField(label='Что важно знать мастеру', required=False, widget=forms.Textarea)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['email'].required = True
+        self.fields['first_name'].label = 'Имя'
+        self.fields['email'].label = 'Электронная почта'
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        if User.objects.filter(email__iexact=email).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError('Эта почта уже используется')
+        return email
 
 
 
