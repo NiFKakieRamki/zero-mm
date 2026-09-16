@@ -61,3 +61,7 @@ class BookingAdmin(admin.ModelAdmin):
         super().save_related(request, form, formsets, change)
         form.instance.update_total()
 
+    def changelist_view(self, request, extra_context=None):
+        Booking.mark_finished()
+        return super().changelist_view(request, extra_context)
+

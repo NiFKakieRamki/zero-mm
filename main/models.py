@@ -140,4 +140,16 @@ class Booking(models.Model):
         self.total_price = sum(s.price for s in services)
         self.total_duration_minutes = sum(s.duration_minutes for s in services)
         self.save(update_fields=['total_price', 'total_duration_minutes'])
+
+    @classmethod
+    def mark_finished(cls):
+        now = timezone.now()
+
+        for booking in cls.objects.filter(status=cls.Status.PLANNED, starts_at__lt=now):
+            booking_ends_at = booking.starts_at + timedelta(minutes=booking.total_duration_minutes)
+
+            if booking_ends_at < now:
+                booking.status = cls.Status.DONE
+                booking.save()
+
     

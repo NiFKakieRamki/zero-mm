@@ -130,7 +130,9 @@ def booking_slot_view(request):
     
 @login_required
 def my_bookings_view(request):
+    Booking.mark_finished()
+
     bookings = Booking.objects.filter(client=request.user).prefetch_related('services').order_by('-starts_at')
 
-    return render(request, 'main/my_bookings.html', {'bookings':bookings})
+    return render(request, 'my_bookings.html', {'bookings': bookings})
 

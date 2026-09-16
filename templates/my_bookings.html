@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Мои записи | 0 мм{% endblock title %}
+
+
+{% block content %}
+  <div class="max-w-3xl mx-auto">
+
+    <h1 class="text-3xl font-bold mb-8">Мои записи</h1>
+
+    {% if bookings %}
+
+      <div class="space-y-4 max-w-3xl">
+        {% for booking in bookings %}
+
+          <div class="bg-white rounded-2xl p-6 shadow-sm shadow-ink/10">
+
+            <div class="flex flex-wrap items-baseline justify-between gap-2 mb-4">
+              <p class="text-xl font-bold tabular-nums">
+                {{ booking.starts_at|date:"d.m.Y, H:i" }}
+              </p>
+              <span class="text-sm px-3 py-1 rounded-full
+                          {% if booking.status == 'planned' %}bg-green-100 text-green-800
+                          {% else %}bg-ink/5 text-ink/60{% endif %}">
+                {{ booking.get_status_display }}
+              </span>
+            </div>
+
+            <ul class="space-y-1 text-sm mb-4">
+              {% for service in booking.services.all %}
+                <li class="flex justify-between gap-4">
+                  <span>{{ service.procedure_type.name }} — {{ service.zone.name }}</span>
+                  <span class="text-ink/50 whitespace-nowrap">{{ service.duration_minutes }} мин</span>
+                </li>
+              {% endfor %}
+            </ul>
+
+            <div class="flex justify-between items-center border-t border-ink/10 pt-3">
+              <p class="text-sm text-ink/60">{{ booking.total_duration_minutes }} мин</p>
+              <p class="font-bold">{{ booking.total_price }} ₽</p>
+            </div>
+
+          </div>
+
+        {% endfor %}
+      </div>
+
+    {% else %}
+
+      <p class="text-ink/60 mb-6">У вас пока нет записей.</p>
+      <a href="{% url 'main:booking_create' %}"
+        class="inline-block bg-brand hover:bg-brand-dark text-ink px-6 py-3 rounded-full font-semibold transition-colors">
+        Записаться
+      </a>
+
+    {% endif %}
+  </div>
+
+{% endblock content %}
