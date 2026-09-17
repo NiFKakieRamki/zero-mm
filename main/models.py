@@ -81,6 +81,24 @@ class WorkSettings(models.Model):
         work_settings, _ = cls.objects.get_or_create(id=1)
         return work_settings
 
+    def clean(self):
+        if self.work_starts and self.work_ends:
+            if self.work_starts >= self.work_ends:
+                raise ValidationError({'work_ends': 'Конец рабочего дня должен быть позже начала'})
+
+        if self.lunch_starts and not self.lunch_ends:
+            raise ValidationError({'lunch_ends': 'Укажите конец обеда'})
+
+        if self.lunch_ends and not self.lunch_starts:
+            raise ValidationError({'lunch_starts': 'Укажите начало обеда'})
+
+        if self.lunch_starts and self.lunch_ends:
+            if self.lunch_starts >= self.lunch_ends:
+                raise ValidationError({'lunch_ends': 'Конец обеда должен быть позже начала'})
+
+            if self.lunch_starts < self.work_starts or self.lunch_ends > self.work_ends:
+                raise ValidationError({'lunch_starts': 'Обед должен быть внутри рабочего дня'})
+
 
 class TimeOff(models.Model):
     starts_at = models.DateTimeField(verbose_name='Начало нерабочего времени')
