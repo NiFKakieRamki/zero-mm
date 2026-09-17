@@ -60,11 +60,10 @@ class BookingForm(forms.ModelForm):
         return cleaned
 
 
-
-
 class RegisterForm(UserCreationForm):
 
     phone = forms.CharField(max_length=20, label='Телефон')
+    consent = forms.BooleanField(required=True, label='Даю согласие на обработку персональных данных')
     
     class Meta(UserCreationForm.Meta):
         fields = ('username', 'first_name', 'email')

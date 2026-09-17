@@ -18,22 +18,37 @@
       {% endif %}
 
       {% for field in form %}
-        <div>
-          <label for="{{ field.id_for_label }}" class="block text-sm font-semibold mb-1">
-            {{ field.label }}
-          </label>
+        {% if field.name != 'consent' %}
+          <div>
+            <label for="{{ field.id_for_label }}" class="block text-sm font-semibold mb-1">
+              {{ field.label }}
+            </label>
 
-          {{ field }}
+            {{ field }}
 
-          {% if field.help_text %}
-            <div class="mt-1 text-xs text-ink/50">{{ field.help_text }}</div>
-          {% endif %}
+            {% if field.help_text %}
+              <div class="mt-1 text-xs text-ink/50">{{ field.help_text }}</div>
+            {% endif %}
 
-          {% for error in field.errors %}
-            <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
-          {% endfor %}
-        </div>
+            {% for error in field.errors %}
+              <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
       {% endfor %}
+
+      <div>
+        <label class="flex items-start gap-3 text-sm text-ink/70 cursor-pointer">
+          {{ form.consent }}
+          <span>
+            Даю согласие на обработку персональных данных в соответствии
+            с <a href="{% url 'main:privacy' %}" target="_blank" class="underline hover:text-ink">политикой конфиденциальности</a>
+          </span>
+        </label>
+        {% for error in form.consent.errors %}
+          <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
+        {% endfor %}
+      </div>
 
       <button type="submit"
               class="w-full bg-ink text-background rounded-lg py-3 font-semibold">

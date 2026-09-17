@@ -140,7 +140,12 @@
       button.addEventListener('click', () => showTab(button.dataset.tab));
     });
 
-    if (tabButtons.length) {
+    const typeFromUrl = new URLSearchParams(window.location.search).get('type');
+    const startButton = [...tabButtons].find(button => button.dataset.tab === typeFromUrl);
+
+    if (startButton) {
+      showTab(startButton.dataset.tab);
+    } else if (tabButtons.length) {
       showTab(tabButtons[0].dataset.tab);
     }
 

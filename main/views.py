@@ -176,3 +176,23 @@ def booking_cancel_view(request, booking_id):
             messages.error(request, 'Эту запись уже нельзя отменить')
 
     return redirect('main:my_bookings')
+
+def tips_view(request):
+    return render(request, 'tips.html')
+
+def services_view(request):
+    services = (
+        Service.objects
+        .filter(is_active=True)
+        .select_related('procedure_type', 'zone')
+        .order_by('procedure_type__name', 'zone__name')
+    )
+
+    grouped = defaultdict(list)
+    for service in services:
+        grouped[service.procedure_type].append(service)
+
+    return render(request, 'services.html', {'service_groups': list(grouped.items())})
+
+def privacy_view(request):
+    return render(request, 'privacy.html')

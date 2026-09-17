@@ -61,7 +61,7 @@
       </a>
 
     </div>
-    
+
   </section>
 
   <section class="py-12 border-t border-ink/10">
@@ -75,7 +75,14 @@
         </p>
         <h3 class="font-semibold mb-1">{{ service.zone }}</h3>
         <p class="text-sm text-ink/60 mb-4">{{ service.duration_minutes }} минут</p>
-        <p class="font-bold text-lg">{{ service.price }} ₽</p>
+        
+        <div class="flex items-center justify-between gap-4">
+          <p class="font-bold text-lg">{{ service.price }} ₽</p>
+          <a href="{% url 'main:services' %}?type={{ service.procedure_type.id }}"
+             class="text-sm text-brand-dark hover:text-ink transition-colors">
+            Подробнее →
+          </a>
+        </div>
       </div>
     {% empty %}
       <p class="text-ink/60">Пока ничего не выбрано для витрины.</p>

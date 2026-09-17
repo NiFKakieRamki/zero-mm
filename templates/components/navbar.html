@@ -3,9 +3,8 @@
     <a href="{% url 'main:home' %}" class="text-xl font-bold slashed-zero tracking-tight">0 миллиметров</a>
 
     <div class="flex flex-wrap gap-6 text-sm font-medium">
-      <a href="#" class="hover:text-brand transition-colors">Услуги</a>
-      <a href="#" class="hover:text-brand transition-colors">О мастере</a>
-      <a href="#" class="hover:text-brand transition-colors">Полезные советы</a>
+      <a href="{% url 'main:services' %}" class="hover:text-brand transition-colors">Услуги</a>
+      <a href="{% url 'main:tips' %}" class="hover:text-brand transition-colors">Полезные советы</a>
       <a href="{% url 'main:booking_create' %}" class="text-brand hover:text-white transition-colors">Записаться</a>
     </div>
 

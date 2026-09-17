@@ -19,6 +19,7 @@ class Profile(models.Model):
 
 class ProcedureType(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Тип процедуры')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     class Meta:
         verbose_name = 'Тип процедуры'
