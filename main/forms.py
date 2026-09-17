@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Booking, WorkSettings, TimeOff
 from django.utils import timezone
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -40,6 +40,13 @@ class BookingForm(forms.ModelForm):
 
             ends_at = starts_at + timedelta(minutes=total_minutes)
 
+            if work_settings.lunch_starts and work_settings.lunch_ends:
+                lunch_start = timezone.make_aware(datetime.combine(starts_at.date(), work_settings.lunch_starts))
+                lunch_end = timezone.make_aware(datetime.combine(starts_at.date(), work_settings.lunch_ends))
+
+                if starts_at < lunch_end and ends_at > lunch_start:
+                    self.add_error('starts_at', 'Это время попадает на перерыв, выберите другое')
+
             for time_off in TimeOff.objects.all():
                 if starts_at < time_off.ends_at and ends_at > time_off.starts_at:
                     self.add_error('starts_at', 'Мастер не работает в это время. Выберите другое')
@@ -73,6 +80,13 @@ class RegisterForm(UserCreationForm):
 
         self.fields['first_name'].required = True
         self.fields['email'].required = True
+        self.fields['email'].label = 'Электронная почта'
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError('Эта почта уже используется')
+        return email
 
 
 class ProfileForm(forms.ModelForm):

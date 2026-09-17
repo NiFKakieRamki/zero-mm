@@ -12,6 +12,12 @@ def get_slots(day, duration_minutes):
 
     day_start = timezone.make_aware(datetime.combine(day, work_settings.work_starts))
     day_ends = timezone.make_aware(datetime.combine(day, work_settings.work_ends))
+    lunch_start = None
+    lunch_end = None
+
+    if work_settings.lunch_starts and work_settings.lunch_ends:
+        lunch_start = timezone.make_aware(datetime.combine(day, work_settings.lunch_starts))
+        lunch_end = timezone.make_aware(datetime.combine(day, work_settings.lunch_ends))
 
     duration = timedelta(minutes=duration_minutes)
     step = timedelta(minutes=work_settings.slot_step_minutes)
@@ -28,6 +34,9 @@ def get_slots(day, duration_minutes):
         available = True
 
         if slot_start < min_booking_time:
+            available = False
+
+        if lunch_start and slot_start < lunch_end and slot_end > lunch_start:
             available = False
 
         for booking in day_bookings:

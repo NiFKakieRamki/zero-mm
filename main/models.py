@@ -57,6 +57,8 @@ class Service(models.Model):
 class WorkSettings(models.Model):
     work_starts = models.TimeField(default=time(10,0), verbose_name='Начало рабочего дня')
     work_ends = models.TimeField(default=time(18,0), verbose_name='Конец рабочего дня')
+    lunch_starts = models.TimeField(null=True, blank=True, verbose_name='Начало обеда')
+    lunch_ends = models.TimeField(null=True, blank=True, verbose_name='Конец обеда')
     min_hours_before_visit = models.PositiveSmallIntegerField(default=3, verbose_name='Минимум часов до визита')
     slot_step_minutes = models.PositiveSmallIntegerField(default=15, verbose_name='Шаг слота записи')
     monday = models.BooleanField(default=True, verbose_name='Понедельник')
@@ -68,8 +70,8 @@ class WorkSettings(models.Model):
     sunday = models.BooleanField(default=True, verbose_name='Воскресенье')
 
     class Meta:
-        verbose_name = 'Настройки записи'
-        verbose_name_plural = 'Настройки записи'
+        verbose_name = 'Настройки рабочего времени'
+        verbose_name_plural = 'Настройки рабочего времени'
 
     def __str__(self):
         return 'Настройки рабочего дня и записи'

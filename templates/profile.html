@@ -4,59 +4,54 @@
 
 {% block content %}
 
-  <div class="max-w-3xl mx-auto">
+    <div class="max-w-3xl mx-auto">
 
-    <h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
+        <h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
 
-    <nav class="flex gap-2 mb-8">
-      <a href="{% url 'main:my_bookings' %}"
-         class="px-4 py-2 rounded-full text-sm font-semibold bg-ink/5 hover:bg-ink/10 transition-colors">
-        Мои записи
-      </a>
-      <a href="{% url 'main:profile' %}"
-         class="px-4 py-2 rounded-full text-sm font-semibold bg-ink text-background">
-        Мои данные
-      </a>
-    </nav>
+        <nav class="flex gap-2 mb-8">
+            <a href="{% url 'main:my_bookings' %}" class="px-4 py-2 rounded-full text-sm font-semibold bg-ink/5 hover:bg-ink/10 transition-colors">
+                Мои записи
+            </a>
+            <a href="{% url 'main:profile' %}" class="px-4 py-2 rounded-full text-sm font-semibold bg-ink text-background">
+                Мои данные
+            </a>
+        </nav>
 
-    <form method="POST" class="bg-white rounded-2xl p-6 shadow-sm shadow-ink/10">
-      {% csrf_token %}
+        <form method="POST" class="bg-white rounded-2xl p-6 shadow-sm shadow-ink/10">
+            {% csrf_token %}
 
-      <div class="grid gap-6 sm:grid-cols-2">
+            <div class="grid gap-6 sm:grid-cols-2">
 
-        <div class="space-y-5">
-          {% for field in form %}
-            {% if field.name != 'notes' %}
-              <div>
-                <label for="{{ field.id_for_label }}" class="block text-sm font-semibold mb-1">
-                  {{ field.label }}
-                </label>
-                {{ field }}
-                {% for error in field.errors %}
-                  <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
+                <div class="space-y-5">
+                    {% for field in form %}
+                        {% if field.name != 'notes' %}
+                            <div>
+                                <label for="{{ field.id_for_label }}" class="block text-sm font-semibold mb-1">
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
-        <div>
-          <label for="{{ form.notes.id_for_label }}" class="block text-sm font-semibold mb-1">
-            {{ form.notes.label }}
-          </label>
-          {{ form.notes }}
-        </div>
+                <div>
+                    <label for="{{ form.notes.id_for_label }}" class="block text-sm font-semibold mb-1">
+                        {{ form.notes.label }}
+                    </label>
+                    {{ form.notes }}
+                </div>
 
-      </div>
+            </div>
 
-      <button type="submit"
-              class="mt-6 w-full bg-ink text-background rounded-lg py-3 font-semibold cursor-pointer">
-        Сохранить
-      </button>
-    </form>
+            <button type="submit" class="mt-6 w-full bg-ink text-background rounded-lg py-3 font-semibold cursor-pointer">
+                Сохранить
+            </button>
+        </form>
 
-
-
-  </div>
+    </div>
 
 {% endblock content %}

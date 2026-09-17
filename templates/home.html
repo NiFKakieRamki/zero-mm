@@ -5,90 +5,83 @@
 
 {% block content %}
 
-  <section class="grid gap-10 py-12 md:grid-cols-3 items-center">
+<section class="grid gap-10 py-12 md:grid-cols-3 items-center">
     <div class="md:col-span-2">
-      <h1 class="text-5xl font-bold leading-tight mb-6">
-        0 миллиметров &ndash; 0 забот</h1>
-      <p class="text-lg text-ink/70 mb-8">
-        Привет! Я <strong>Виктория</strong>, и я здесь для того, чтобы полностью изменить твое представление о депиляции. В своей стильной студии я превратила рутинный уход за телом в комфортный ритуал, где высокие технологии и премиальные материалы сочетаются с искренней заботой о твоей коже. Я глубоко знаю анатомию волос и тонкости работы с телом, поэтому гарантирую математическую точность настроек, абсолютную стерильность и гладкость. Моя главная цель — подарить тебе уверенность в себе и безупречный результат, создав приватную и расслабляющую атмосферу. Ко мне приходят, чтобы забыть о бритве, а возвращаются за эстетическим удовольствием и временем, посвященным только себе.
-      </p>
+        <h1 class="text-5xl font-bold leading-tight mb-6">0 миллиметров &ndash; 0 забот</h1>
+        <p class="text-lg text-ink/70 mb-8">Привет! Я <strong>Виктория</strong>, и я здесь для того, чтобы полностью изменить твое представление о депиляции. В своей стильной студии я превратила рутинный уход за телом в комфортный ритуал, где высокие технологии и премиальные материалы сочетаются с искренней заботой о твоей коже. Я глубоко знаю анатомию волос и тонкости работы с телом, поэтому гарантирую математическую точность настроек, абсолютную стерильность и гладкость. Моя главная цель — подарить тебе уверенность в себе и безупречный результат, создав приватную и расслабляющую атмосферу. Ко мне приходят, чтобы забыть о бритве, а возвращаются за эстетическим удовольствием и временем, посвященным только себе.
+        </p>
 
-      <div class="flex flex-wrap gap-8 text-sm">
-        <div>
-          <p class="text-2xl font-bold">6 лет</p>
-          <p class="text-ink/60">в депиляции</p>
+        <div class="flex flex-wrap gap-8 text-sm">
+            <div>
+                <p class="text-2xl font-bold">6 лет</p>
+                <p class="text-ink/60">в депиляции</p>
+            </div>
+            <div>
+                <p class="text-2xl font-bold">2 400</p>
+                <p class="text-ink/60">процедур</p>
+            </div>
+            <div>
+                <p class="text-2xl font-bold">40 мин</p>
+                <p class="text-ink/60">полная эпиляция ног</p>
+            </div>
         </div>
-        <div>
-          <p class="text-2xl font-bold">2 400</p>
-          <p class="text-ink/60">процедур</p>
-        </div>
-        <div>
-          <p class="text-2xl font-bold">40 мин</p>
-          <p class="text-ink/60">полная эпиляция ног</p>
-        </div>
-      </div>
     </div>
-
-
-
 
     <div class="bg-white/30 border border-brand/30 text-ink rounded-4xl p-8 flex shadow-lg shadow-ink/20 flex-col justify-between gap-8">
 
-      <div>
-        <h2 class="text-2xl font-bold mb-3">Записаться онлайн</h2>
-        <p class="text-sm text-ink/60">
-          Без звонков и переписки. Займёт минуту.
-        </p>
-      </div>
+        <div>
+            <h2 class="text-2xl font-bold mb-3">Записаться онлайн</h2>
+            <p class="text-sm text-ink/60">
+                Без звонков и переписки. Займёт минуту.
+            </p>
+        </div>
 
-      <ol class="space-y-4 text-sm text-ink/80">
-        <li class="flex gap-3 items-center">
-          <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">1</span>
-          Выбираете услугу
-        </li>
-        <li class="flex gap-3 items-center">
-          <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">2</span>
-          Выбираете свободное время
-        </li>
-        <li class="flex gap-3 items-center">
-          <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">3</span>
-          Приходите в назначенный час
-        </li>
-      </ol>
+        <ol class="space-y-4 text-sm text-ink/80">
+            <li class="flex gap-3 items-center">
+                <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">1</span>
+                Выбираете услугу
+            </li>
+            <li class="flex gap-3 items-center">
+                <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">2</span>
+                Выбираете свободное время
+            </li>
+            <li class="flex gap-3 items-center">
+                <span class="shrink-0 w-6 h-6 rounded-full bg-ink text-background font-bold text-xs flex items-center justify-center">3</span>
+                Приходите в назначенный час
+            </li>
+        </ol>
 
-      <a href="{% url 'main:booking_create' %}" class="bg-brand hover:bg-brand-dark text-ink text-center px-6 py-3 rounded-full font-semibold transition-colors">
-        Начать запись
-      </a>
+        <a href="{% url 'main:booking_create' %}" class="bg-brand hover:bg-brand-dark text-ink text-center px-6 py-3 rounded-full font-semibold transition-colors">
+            Начать запись
+        </a>
 
     </div>
+</section>
 
-  </section>
+<section class="py-12 border-t border-ink/10">
+    <h2 class="text-2xl font-bold mb-6">Рекомендуем</h2>
+    <div class="grid gap-6 sm:grid-cols-3">
 
-  <section class="py-12 border-t border-ink/10">
-  <h2 class="text-2xl font-bold mb-6">Рекомендуем</h2>
-  <div class="grid gap-6 sm:grid-cols-3">
+        {% for service in showcased %}
+            <div class="bg-white/30 rounded-2xl p-6 shadow-lg shadow-ink/20">
+                <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">
+                    {{ service.procedure_type }}
+                </p>
+                <h3 class="font-semibold mb-1">{{ service.zone }}</h3>
+                <p class="text-sm text-ink/60 mb-4">{{ service.duration_minutes }} минут</p>
+            
+                <div class="flex items-center justify-between gap-4">
+                    <p class="font-bold text-lg">{{ service.price }} ₽</p>
+                    <a href="{% url 'main:services' %}?type={{ service.procedure_type.id }}" class="text-sm text-brand-dark hover:text-ink transition-colors">
+                        Подробнее →
+                    </a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-ink/60">Пока ничего не выбрано для витрины.</p>
+        {% endfor %}
 
-    {% for service in showcased %}
-      <div class="bg-white/30 rounded-2xl p-6 shadow-lg shadow-ink/20">
-        <p class="text-xs font-semibold tracking-wide text-brand-dark uppercase mb-2">
-          {{ service.procedure_type }}
-        </p>
-        <h3 class="font-semibold mb-1">{{ service.zone }}</h3>
-        <p class="text-sm text-ink/60 mb-4">{{ service.duration_minutes }} минут</p>
-        
-        <div class="flex items-center justify-between gap-4">
-          <p class="font-bold text-lg">{{ service.price }} ₽</p>
-          <a href="{% url 'main:services' %}?type={{ service.procedure_type.id }}"
-             class="text-sm text-brand-dark hover:text-ink transition-colors">
-            Подробнее →
-          </a>
-        </div>
-      </div>
-    {% empty %}
-      <p class="text-ink/60">Пока ничего не выбрано для витрины.</p>
-    {% endfor %}
-
-  </div>
+    </div>
 </section>
 
 {% endblock content %}

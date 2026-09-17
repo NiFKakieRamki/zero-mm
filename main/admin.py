@@ -25,14 +25,14 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(WorkSettings)
 class WorkSettingsAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'work_starts', 'work_ends', 'min_hours_before_visit', 'slot_step_minutes')
+    list_display = ('__str__', 'work_starts', 'lunch_starts', 'lunch_ends', 'work_ends', 'min_hours_before_visit', 'slot_step_minutes')
     fieldsets = (
         ('Рабочие дни', {
             'description': 'Отмеченные дни — рабочие',
             'fields': (('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'),),
         }),
         ('Рабочее время', {
-            'fields': (('work_starts', 'work_ends'),),
+            'fields': (('work_starts', 'work_ends'),('lunch_starts', 'lunch_ends')),
         }),
 
         ('Запись', {

@@ -4,149 +4,146 @@
 
 {% block content %}
 
+    <h1 class="text-3xl font-bold mb-8">Онлайн-запись</h1>
 
-  <h1 class="text-3xl font-bold mb-8">Онлайн-запись</h1>
+    <form method="POST">
+        {% csrf_token %}
 
-  <form method="POST">
-    {% csrf_token %}
+        <div class="grid gap-10 lg:grid-cols-3">
 
-    <div class="grid gap-10 lg:grid-cols-3">
+            <div class="lg:col-span-2">
 
-      <div class="lg:col-span-2">
+                <div class="flex flex-wrap gap-2 mb-6 border-b border-ink/20 pb-4">
+                    {% for procedure_type, services in service_groups %}
+                        <button type="button"
+                                data-tab="{{ procedure_type.id }}"
+                                class="tab-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors">
+                            {{ procedure_type.name }}
+                        </button>
+                    {% endfor %}
+                </div>
 
-        <div class="flex flex-wrap gap-2 mb-6 border-b border-ink/20 pb-4">
-          {% for procedure_type, services in service_groups %}
-            <button type="button"
-                    data-tab="{{ procedure_type.id }}"
-                    class="tab-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors">
-              {{ procedure_type.name }}
-            </button>
-          {% endfor %}
+                {% for procedure_type, services in service_groups %}
+                    <div data-panel="{{ procedure_type.id }}" class="tab-panel">
+
+                        {% for service in services %}
+                            <label class="group flex items-center gap-4 border-b border-ink/15 py-3 cursor-pointer">
+
+                                <input type="checkbox" name="services" value="{{ service.id }}"
+                                    class="peer sr-only"
+                                    data-name="{{ procedure_type.name }} — {{ service.zone.name }}"
+                                    data-price="{{ service.price }}"
+                                    data-duration="{{ service.duration_minutes }}"
+                                    {% if service.id in selected_service_ids %}checked{% endif %}>
+
+                                <span class="h-10 w-3 shrink-0 bg-ink transition-all duration-150 ease-out
+                                        rounded-lg rounded-tr-none
+                                        group-hover:w-8
+                                        peer-checked:w-10! peer-checked:rounded-3xl! peer-checked:rounded-tr-none!
+                                        peer-focus-visible:ring-2 peer-focus-visible:ring-brand-dark"></span>
+
+                                <span class="flex-1 font-medium text-base leading-none transition-all duration-150 ease-out
+                                            group-hover:text-lg
+                                            peer-checked:text-xl!">{{ service.zone.name }}</span>
+
+                                <span class="flex items-center gap-4 transition-transform duration-150 ease-out
+                                            group-hover:-translate-x-2
+                                            peer-checked:-translate-x-4!">
+                                    <span class="text-sm text-ink/50">{{ service.duration_minutes }} мин</span>
+                                    <span class="font-semibold w-20 text-right">{{ service.price }} ₽</span>
+                                </span>
+
+                            </label>
+                        {% endfor %}
+
+                    </div>
+                {% endfor %}
+            </div>
+
+
+            {% comment %} БЛОК КОРЗИНЫ {% endcomment %}
+
+            <aside class="lg:col-span-1">
+                <div class="sticky top-6 bg-ink/5 rounded-2xl p-6">
+
+                    <h2 class="font-bold text-lg mb-4">Ваш визит</h2>
+
+                    <p id="cart-empty" class="text-sm text-ink/50">
+                        Выберите услуги слева
+                    </p>
+
+                    <ul id="cart-items" class="space-y-3"></ul>
+
+                    <div id="cart-summary" hidden class="mt-5 border-t border-ink/15 pt-4 space-y-1">
+                        <div class="flex justify-between text-sm text-ink/60">
+                            <span>Длительность</span>
+                            <span><span id="cart-duration">0</span> мин</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg">
+                            <span>Итого</span>
+                            <span><span id="cart-total">0</span> ₽</span>
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
         </div>
 
-        {% for procedure_type, services in service_groups %}
-          <div data-panel="{{ procedure_type.id }}" class="tab-panel">
 
-            {% for service in services %}
-                <label class="group flex items-center gap-4 border-b border-ink/15 py-3 cursor-pointer">
+        {% comment %} БЛОК СЛОТЫ {% endcomment %}
 
-                    <input type="checkbox" name="services" value="{{ service.id }}"
-                        class="peer sr-only"
-                        data-name="{{ procedure_type.name }} — {{ service.zone.name }}"
-                        data-price="{{ service.price }}"
-                        data-duration="{{ service.duration_minutes }}"
-                        {% if service.id in selected_service_ids %}checked{% endif %}>
+        <div class="mt-8 max-w-md">
 
-                    <span class="h-10 w-3 shrink-0 bg-ink transition-all duration-150 ease-out
-                            rounded-lg rounded-tr-none
-                            group-hover:w-8
-                            peer-checked:w-10! peer-checked:rounded-3xl! peer-checked:rounded-tr-none!
-                            peer-focus-visible:ring-2 peer-focus-visible:ring-brand-dark"></span>
+            <label for="booking-date" class="block text-sm font-semibold mb-1">Дата визита</label>
+            <input type="date" id="booking-date">
 
-                    <span class="flex-1 font-medium text-base leading-none transition-all duration-150 ease-out
-                                group-hover:text-lg
-                                peer-checked:text-xl!">{{ service.zone.name }}</span>
+            <div id="slots-block" class="mt-5" hidden>
+                <p class="text-sm font-semibold mb-2">Свободное время</p>
+                <div id="slots" class="grid grid-cols-4 sm:grid-cols-6 gap-2"></div>
+                <p id="slots-empty" class="text-sm text-ink/50" hidden>На эту дату свободного времени нет</p>
+            </div>
 
-                    <span class="flex items-center gap-4 transition-transform duration-150 ease-out
-                                group-hover:-translate-x-2
-                                peer-checked:-translate-x-4!">
-                      <span class="text-sm text-ink/50">{{ service.duration_minutes }} мин</span>
-                      <span class="font-semibold w-20 text-right">{{ service.price }} ₽</span>
-                    </span>
+            <input type="hidden" name="starts_at" id="starts-at">
 
-                </label>
+            {% for error in form.starts_at.errors %}
+                <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
             {% endfor %}
-
-          </div>
-        {% endfor %}
-
-
-      {% comment %} БЛОК КОРЗИНЫ {% endcomment %}
-
-      </div>
-
-      <aside class="lg:col-span-1">
-        <div class="sticky top-6 bg-ink/5 rounded-2xl p-6">
-
-          <h2 class="font-bold text-lg mb-4">Ваш визит</h2>
-
-          <p id="cart-empty" class="text-sm text-ink/50">
-            Выберите услуги слева
-          </p>
-
-          <ul id="cart-items" class="space-y-3"></ul>
-
-          <div id="cart-summary" hidden class="mt-5 border-t border-ink/15 pt-4 space-y-1">
-            <div class="flex justify-between text-sm text-ink/60">
-              <span>Длительность</span>
-              <span><span id="cart-duration">0</span> мин</span>
-            </div>
-            <div class="flex justify-between font-bold text-lg">
-              <span>Итого</span>
-              <span><span id="cart-total">0</span> ₽</span>
-            </div>
-          </div>
-
         </div>
-      </aside>
 
-    </div>
-
-
-    {% comment %} БЛОК СЛОТЫ {% endcomment %}
-
-    <div class="mt-8 max-w-md">
-
-      <label for="booking-date" class="block text-sm font-semibold mb-1">Дата визита</label>
-      <input type="date" id="booking-date">
-
-      <div id="slots-block" class="mt-5" hidden>
-        <p class="text-sm font-semibold mb-2">Свободное время</p>
-        <div id="slots" class="grid grid-cols-4 sm:grid-cols-6 gap-2"></div>
-        <p id="slots-empty" class="text-sm text-ink/50" hidden>На эту дату свободного времени нет</p>
-      </div>
-
-      <input type="hidden" name="starts_at" id="starts-at">
-
-      {% for error in form.starts_at.errors %}
-        <p class="mt-1 text-xs text-brand-dark">{{ error }}</p>
-      {% endfor %}
-    </div>
-
-    <button type="submit" class="mt-6 px-6 py-3 bg-ink text-background rounded-lg">
-      Записаться
-    </button>
-  </form>
+        <button type="submit" class="mt-6 px-6 py-3 bg-ink text-background rounded-lg">
+            Записаться
+        </button>
+    </form>
 
 
-  <script>
+<script>
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanels = document.querySelectorAll('.tab-panel');
 
     function showTab(id) {
-      tabPanels.forEach(panel => {
+        tabPanels.forEach(panel => {
         panel.hidden = panel.dataset.panel !== id;
-      });
+        });
 
-      tabButtons.forEach(button => {
+        tabButtons.forEach(button => {
         const isActive = button.dataset.tab === id;
         button.classList.toggle('bg-ink', isActive);
         button.classList.toggle('text-background', isActive);
         button.classList.toggle('bg-ink/5', !isActive);
-      });
+        });
     }
 
     tabButtons.forEach(button => {
-      button.addEventListener('click', () => showTab(button.dataset.tab));
+        button.addEventListener('click', () => showTab(button.dataset.tab));
     });
 
     const typeFromUrl = new URLSearchParams(window.location.search).get('type');
     const startButton = [...tabButtons].find(button => button.dataset.tab === typeFromUrl);
 
     if (startButton) {
-      showTab(startButton.dataset.tab);
+        showTab(startButton.dataset.tab);
     } else if (tabButtons.length) {
-      showTab(tabButtons[0].dataset.tab);
+        showTab(tabButtons[0].dataset.tab);
     }
 
 
@@ -158,13 +155,13 @@
     const cartTotal = document.getElementById('cart-total');
 
     function updateCart() {
-      const chosen = [...serviceInputs].filter(input => input.checked);
+        const chosen = [...serviceInputs].filter(input => input.checked);
 
-      cartItems.innerHTML = '';
-      let duration = 0;
-      let total = 0;
+        cartItems.innerHTML = '';
+        let duration = 0;
+        let total = 0;
 
-      chosen.forEach(input => {
+        chosen.forEach(input => {
         duration += Number(input.dataset.duration);
         total += Number(input.dataset.price);
 
@@ -180,12 +177,12 @@
 
         item.append(name, price);
         cartItems.appendChild(item);
-      });
+        });
 
-      cartEmpty.hidden = chosen.length > 0;
-      cartSummary.hidden = chosen.length === 0;
-      cartDuration.textContent = duration;
-      cartTotal.textContent = total;
+        cartEmpty.hidden = chosen.length > 0;
+        cartSummary.hidden = chosen.length === 0;
+        cartDuration.textContent = duration;
+        cartTotal.textContent = total;
     }
 
     serviceInputs.forEach(input => input.addEventListener('change', updateCart));
@@ -201,56 +198,56 @@
     const startsAtInput = document.getElementById('starts-at');
 
     function totalDuration() {
-      let total = 0;
-      serviceInputs.forEach(input => {
+        let total = 0;
+        serviceInputs.forEach(input => {
         if (input.checked) {
-          total += Number(input.dataset.duration);
+            total += Number(input.dataset.duration);
         }
-      });
-      return total;
+        });
+        return total;
     }
 
     async function loadSlots() {
-      startsAtInput.value = '';
+        startsAtInput.value = '';
 
-      const date = dateInput.value;
-      const duration = totalDuration();
+        const date = dateInput.value;
+        const duration = totalDuration();
 
-      if (!date || duration === 0) {
+        if (!date || duration === 0) {
         slotsBox.innerHTML = '';
         slotsBlock.hidden = true;
         return;
-      }
+        }
 
-      slotsBlock.hidden = false;
+        slotsBlock.hidden = false;
 
-      const response = await fetch(`/booking/slots/?date=${date}&duration=${duration}`);
-      const data = await response.json();
-      slotsBox.innerHTML = '';
-      slotsEmpty.hidden = data.slots.length > 0;
+        const response = await fetch(`/booking/slots/?date=${date}&duration=${duration}`);
+        const data = await response.json();
+        slotsBox.innerHTML = '';
+        slotsEmpty.hidden = data.slots.length > 0;
 
-      data.slots.forEach(slot => {
+        data.slots.forEach(slot => {
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = slot.time;
         button.disabled = !slot.available;
 
         button.className = 'px-3 py-2 rounded-lg text-sm border text-center tabular-nums transition-colors ' + (
-          slot.available
+            slot.available
             ? 'border-ink/20 hover:border-ink'
             : 'border-transparent bg-ink/5 text-ink/30 cursor-not-allowed'
         );
 
         button.addEventListener('click', () => {
-          slotsBox.querySelectorAll('button').forEach(other => {
+            slotsBox.querySelectorAll('button').forEach(other => {
             other.classList.remove('bg-ink', 'text-background');
-          });
-          button.classList.add('bg-ink', 'text-background');
-          startsAtInput.value = `${date} ${slot.time}`;
+            });
+            button.classList.add('bg-ink', 'text-background');
+            startsAtInput.value = `${date} ${slot.time}`;
         });
 
         slotsBox.appendChild(button);
-      });
+        });
     }
 
     dateInput.addEventListener('change', loadSlots);
@@ -258,6 +255,6 @@
 
 
 
-  </script>
+</script>
 
 {% endblock content %}
